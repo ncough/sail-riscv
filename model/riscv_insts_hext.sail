@@ -7,4 +7,5 @@
 /*=======================================================================================*/
 
 // TODO: Ext_H depends on RV32I or RV64I, not RV32E or RV64E.
-function clause currentlyEnabled(Ext_H) = hartSupports(Ext_H) & misa[H] == 0b1 & virtual_memory_supported()
+function clause currentlyEnabled(Ext_H) = hartSupports(Ext_H) & misa[H] == 0b1 & (currentlyEnabled(Ext_Sv32) | currentlyEnabled(Ext_Sv39) | currentlyEnabled(Ext_Sv48) | currentlyEnabled(Ext_Sv57))
+
