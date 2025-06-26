@@ -19,7 +19,7 @@ set(sail_common
 
 foreach (xlen IN ITEMS 32 64)
     foreach (flen IN ITEMS 32 64)
-        foreach (variant IN ITEMS "" "rocq" "rmem" "lean" "lem" "isabelle")
+        foreach (variant IN ITEMS "" "rocq" "rmem" "lean" "lem" "isabelle" "asl")
             set(arch "rv${xlen}")
             if (flen EQUAL 32)
                 string(APPEND arch "f")
@@ -444,6 +444,25 @@ foreach (xlen IN ITEMS 32 64)
                     "rmem_${arch}_toFromInterp2.ml"
                     "rmem_${arch}.defs"
                 )
+            endif()
+
+
+            if (variant STREQUAL "asl")
+                add_custom_command(
+                    DEPENDS ${sail_srcs}
+                    VERBATIM
+                    OUTPUT "${arch}_support.asl"
+                    COMMENT "Building ASL definitions from Sail model (${arch})"
+                    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+                    COMMAND
+                        ${SAIL_BIN}
+                        --asl
+                        --asl-output-dir ${CMAKE_CURRENT_BINARY_DIR}
+                        --config ${CMAKE_SOURCE_DIR}/config/default.json
+                        -o "${arch}"
+                        ${sail_srcs}
+                )
+                add_custom_target(generated_asl_${arch} DEPENDS "${arch}_support.asl")
             endif()
 
             # Build Rocq (formerly Coq) definitions.
