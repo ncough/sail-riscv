@@ -1918,8 +1918,7 @@ function clause execute(VMVXS(vs2, rd)) = {
 
   let vs2_val : vector('n, bits('m)) = read_vreg(num_elem, SEW, 0, vs2);
   X(rd) = if xlen < SEW then slice(vs2_val[0], 0, xlen)
-          else if xlen > SEW then sign_extend(vs2_val[0])
-          else vs2_val[0];
+          else sign_extend(vs2_val[0]);
   set_vstart(zeros());
 
   RETIRE_SUCCESS

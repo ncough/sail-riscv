@@ -202,6 +202,7 @@ function vmem_read(rs, offset, width, acc, aq, rl, res) = {
      (single-copy-atomic) memory operations, each of `bytes` width. If the load is
      aligned, then `n` = 1 and bytes will remain unchanged. */
   let ('n, 'bytes) = split_misaligned(vaddr, width);
+  assert(width == n * bytes);
   var data = zeros(8 * n * bytes);
 
   let (first, last, step) = misaligned_order(n);

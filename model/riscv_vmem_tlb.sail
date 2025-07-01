@@ -39,9 +39,9 @@ function tlb_get_pte forall 'n, 'n in {4, 8}. (
   ent       : TLB_Entry,
 ) -> bits('n * 8) = ent.pte['n * 8 - 1 .. 0]
 
-function tlb_set_pte forall 'n, 'n in {4, 8}. (
+function tlb_set_pte forall 'n, 'n in {32, 64}. (
   ent : TLB_Entry,
-  pte : bits('n * 8),
+  pte : bits('n),
 ) -> TLB_Entry = { ent with pte=zero_extend(pte) }
 
 function tlb_get_ppn forall 'v, is_sv_mode('v) . (
